@@ -1,4 +1,6 @@
+import 'package:facturasya/pages/bienvenida.dart';
 import 'package:facturasya/pages/intro_page_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: IntroPageWidget(), // Aquí se llama a la pantalla de introducción
+      home: FirebaseAuth.instance.currentUser == null ? const IntroPageWidget() : const Bienvenida() // Aquí se llama a la pantalla de introducción
     );
   }
 }

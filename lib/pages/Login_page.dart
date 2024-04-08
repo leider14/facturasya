@@ -1,7 +1,11 @@
+
+import 'package:facturasya/pages/Signup.dart';
+import 'package:facturasya/pages/bienvenida.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
+  final TextEditingController _username = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -17,6 +21,12 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            TextField(
+              controller: _username,
+              decoration: const InputDecoration(
+                labelText: 'USER NAME',
+              ),
+            ),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -41,6 +51,12 @@ class LoginPage extends StatelessWidget {
                     password: _passwordController.text,
                   );
                   print('inicio de sesion corectamente');
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return const Scaffold(
+                      body: Bienvenida(),
+                    );
+                  }));
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'user-not-found') {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -69,7 +85,14 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                 Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return  Scaffold(
+                      body: Signup(),
+                    );
+                  }));
+              },
               child: Text('¿No tienes una cuenta? Regístrate'),
             ),
           ],
