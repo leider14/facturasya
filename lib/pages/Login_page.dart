@@ -1,11 +1,10 @@
-
 import 'package:facturasya/pages/Signup.dart';
 import 'package:facturasya/pages/bienvenida.dart';
+import 'package:facturasya/services/auth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
-  final TextEditingController _username = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -21,12 +20,6 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
-              controller: _username,
-              decoration: const InputDecoration(
-                labelText: 'USER NAME',
-              ),
-            ),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -51,6 +44,7 @@ class LoginPage extends StatelessWidget {
                     password: _passwordController.text,
                   );
                   print('inicio de sesion corectamente');
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
                     return const Scaffold(
@@ -85,13 +79,38 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             TextButton(
+              onPressed: () async {
+                try {
+                  final user = await AuthUser().loginGoogle();
+                  if (user != null) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const Scaffold(
+                        body: Bienvenida(),
+                      );
+                    }));
+                  }
+                } on FirebaseAuthException catch (error) {
+                  print(error.message);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(error.message ?? 'Ups... Algo salio mal')));
+                } catch (error) {
+                  print(error);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(error.toString())));
+                }
+              },
+              child: Text('Iniciar con google'),
+            ),
+            TextButton(
               onPressed: () {
-                 Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) {
-                    return  Scaffold(
-                      body: Signup(),
-                    );
-                  }));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) {
+                  return Scaffold(
+                    body: Signup(),
+                  );
+                }));
               },
               child: Text('¿No tienes una cuenta? Regístrate'),
             ),

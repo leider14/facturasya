@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FirebaseAuth.instance.currentUser == null ? const IntroPageWidget() : const Bienvenida() // Aquí se llama a la pantalla de introducción
+      home: FirebaseAuth.instance.currentUser == null ? const IntroPageWidget() : const Bienvenida() 
     );
   }
 }

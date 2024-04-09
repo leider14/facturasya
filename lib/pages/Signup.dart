@@ -52,7 +52,7 @@ class SignupState extends State<Signup> {
             ),
             const SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: ()  {
+              onPressed: () {
                 // Implementar la lógica de registro aquí
                 _register();
               },
@@ -70,39 +70,45 @@ class SignupState extends State<Signup> {
       ),
     );
   }
+
   void _register() async {
-    
+    // Intentamos crear un nuevo usuario con correo electrónico y contraseña
     try {
       final UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Una vez que el usuario ha sido creado, puedes actualizar su perfil
-      await userCredential.user?.updateProfile(
-        displayName: _usernameController.text,
-        photoURL:
-            "https://w7.pngwing.com/pngs/21/228/png-transparent-computer-icons-user-profile-others-miscellaneous-face-monochrome.png",
-      );
 
+      // Si la creación del usuario fue exitosa
       if (userCredential.user != null) {
+        // Actualizamos el perfil del usuario con nombre de usuario y foto de perfil predeterminada
+        await userCredential.user?.updateProfile(
+          displayName: _usernameController.text,
+          photoURL:
+              "https://w7.pngwing.com/pngs/21/228/png-transparent-computer-icons-user-profile-others-miscellaneous-face-monochrome.png",
+        );
+
+        // Almacenamos los datos del usuario en Firestore
         await _firestore
             .collection('usuarios')
             .doc(userCredential.user!.uid)
             .set({
           'username': _usernameController.text.trim(),
           'email': _emailController.text.trim(),
-          'creaed_at':DateTime.now()
-          
+          'photoURL': 'https://w7.pngwing.com/pngs/21/228/png-transparent-computer-icons-user-profile-others-miscellaneous-face-monochrome.png',
+          'created_at': DateTime.now(),
         });
-      }
 
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Bienvenida()),
-      );
+        // Navegamos a la pantalla de bienvenida
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Bienvenida()),
+        );
+      }
     } catch (e) {
+      // Manejamos cualquier error que ocurra durante la creación del usuario
       print('Error al crear usuario: $e');
     }
   }
