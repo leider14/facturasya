@@ -12,7 +12,7 @@ class SalaService {
       'codigo': codigo,
       'Host': user!.displayName,
       'participantes': {
-        {'uid': uid, 'equipo': 'no tiene', 'rol': 'jugador'}
+        {'uid': uid, 'equipo': 'no tiene'}
       },
     });
   }

@@ -16,39 +16,47 @@ class _MyWdgButtonState extends State<MyWdgButton> {
   Widget build(BuildContext context) {
 
     return Bounce(
-      child: Row(
-        children: [
-          Expanded(
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 30
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: widget.color ?? const Color.fromARGB(255, 78, 78, 78),
-                  boxShadow: [
-                    BoxShadow(
-                      blurStyle: BlurStyle.outer,
-                      color:widget.color != null ? widget.color!.withAlpha(90) : const Color.fromARGB(255, 52, 52, 52),
-                      offset:const Offset(0, 5)
-                    )
-                  ]
-                ),
-                child: Center(
-                  child: Text(
-                    widget.text,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
+      child: GestureDetector(
+        onTap: () {
+          if(widget.onPressed != null){
+            widget.onPressed!();
+          }
+          
+        },
+        child: Row(
+          children: [
+            Expanded(
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 30
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: widget.color ?? const Color.fromARGB(255, 78, 78, 78),
+                    boxShadow: [
+                      BoxShadow(
+                        blurStyle: BlurStyle.outer,
+                        color:widget.color != null ? widget.color!.withAlpha(90) : const Color.fromARGB(255, 52, 52, 52),
+                        offset:const Offset(0, 5)
+                      )
+                    ]
+                  ),
+                  child: Center(
+                    child: Text(
+                      widget.text,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
     

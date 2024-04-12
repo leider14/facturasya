@@ -86,7 +86,7 @@ class SignupState extends State<Signup> {
         await userCredential.user?.updateProfile(
           displayName: _usernameController.text,
           photoURL:
-              "https://w7.pngwing.com/pngs/21/228/png-transparent-computer-icons-user-profile-others-miscellaneous-face-monochrome.png",
+              "https://www.pngkey.com/png/detail/532-5327322_contact-us-human-icon-png.png",
         );
 
         // Almacenamos los datos del usuario en Firestore
@@ -96,7 +96,7 @@ class SignupState extends State<Signup> {
             .set({
           'username': _usernameController.text.trim(),
           'email': _emailController.text.trim(),
-          'photoURL': 'https://w7.pngwing.com/pngs/21/228/png-transparent-computer-icons-user-profile-others-miscellaneous-face-monochrome.png',
+          'photoURL': 'https://www.pngkey.com/png/detail/532-5327322_contact-us-human-icon-png.png',
           'created_at': DateTime.now(),
         });
 

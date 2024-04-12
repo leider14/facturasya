@@ -8,10 +8,10 @@ class MyWdgTextField extends StatefulWidget {
   final TextEditingController? textEditingController;
   final IconData? iconData;
   final Function(String value)? onChanged;
-  final VoidCallback? onRemovePressed;
   final VoidCallback? onClipBoardPressed;
   final VoidCallback? onQrPressed;
-  const MyWdgTextField({super.key, this.title, this.hintText, this.textEditingController, this.onChanged, this.iconData, this.onRemovePressed, this.onClipBoardPressed, this.onQrPressed});
+  final TextInputType keyboardType;
+  const MyWdgTextField({super.key, this.title, this.hintText, this.textEditingController, this.onChanged, this.iconData,  this.onClipBoardPressed, this.onQrPressed, this.keyboardType = TextInputType.none});
 
   @override
   State<MyWdgTextField> createState() => _MyWdgTextFieldState();
@@ -77,6 +77,7 @@ class _MyWdgTextFieldState extends State<MyWdgTextField> {
                       child: TextField(
                         focusNode: focusNode,
                         controller: widget.textEditingController,
+                        keyboardType: widget.keyboardType,
                         decoration: InputDecoration(
                           hintText: widget.hintText,
                           hintStyle: const TextStyle(
@@ -145,7 +146,7 @@ class _MyWdgTextFieldState extends State<MyWdgTextField> {
               },
               child: Container(
                 height: 40,
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child:const Icon(
                   FontAwesomeIcons.clipboard,
                   color: Colors.black,
@@ -153,23 +154,6 @@ class _MyWdgTextFieldState extends State<MyWdgTextField> {
                 ),
               ),
             ),
-            if( widget.textEditingController != null && widget.textEditingController!.value.text.isNotEmpty) GestureDetector(
-              onTap: () {
-                 if(widget.onRemovePressed != null){
-                  widget.onRemovePressed!();
-                }
-              },
-              child: Container(
-                height: 40,
-                padding: EdgeInsets.only(left: 10),
-                child:const Icon(
-                  FontAwesomeIcons.xmark,
-                  color: Colors.black,
-                  size: 20,
-                ),
-              ),
-            ),
-            
           ],
         )
       ],

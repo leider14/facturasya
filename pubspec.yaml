@@ -16,6 +16,7 @@ dependencies:
   flutter_animate: ^4.5.0
   font_awesome_flutter: ^10.7.0
   google_sign_in: ^6.1.6
+  qr_flutter: ^4.1.0
   smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
@@ -27,3 +28,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/gifs/

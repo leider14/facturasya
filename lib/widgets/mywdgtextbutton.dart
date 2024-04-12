@@ -1,3 +1,4 @@
+import 'package:bounce/bounce.dart';
 import 'package:flutter/material.dart';
 
 class MyWdgTextButton extends StatefulWidget {
@@ -12,11 +13,17 @@ class MyWdgTextButton extends StatefulWidget {
 class _MyWdgTextButtonState extends State<MyWdgTextButton> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Text(
-        widget.text,
-        style: TextStyle(
-          fontWeight: FontWeight.bold
+    return Bounce(
+      child: GestureDetector(
+        onTap: () {
+          widget.onPressed();
+        },
+        child: Text(
+          widget.text,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(200, 35, 35, 35),
+          ),
         ),
       ),
     );

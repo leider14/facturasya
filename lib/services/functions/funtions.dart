@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:facturasya/services/auth_google.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -28,7 +30,21 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     print('Error fetching user data: $error');
     return {};
   }
-} 
+}
+
+  Future<void> signOutUser() async {
+    // Obtiene el usuario actual
+    final user = FirebaseAuth.instance.currentUser;
+
+    // Determina el método de inicio de sesión
+    if (user?.providerData.isNotEmpty ?? false) {
+      // Cierre de sesión de Google
+      await AuthUser().signOutGoogle();
+    } else {
+      // Cierre de sesión con correo electrónico y contraseña
+      await FirebaseAuth.instance.signOut();
+    }
+  }
 
 
  
