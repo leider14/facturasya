@@ -20,10 +20,6 @@ class Bienvenida extends StatefulWidget {
 
 class _BienvenidaState extends State<Bienvenida> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   User? _user;
 
   final TextEditingController salaController = TextEditingController();
@@ -62,14 +58,6 @@ class _BienvenidaState extends State<Bienvenida> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-<<<<<<< Updated upstream
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const BuscarUsuario(),
-=======
                 const SizedBox(height: 20),
                 const Text(
                   'Sale Fuckbito',
@@ -110,7 +98,6 @@ class _BienvenidaState extends State<Bienvenida> {
                             return const CircularProgressIndicator();
                           }
                         },
->>>>>>> Stashed changes
                       ),
                       const SizedBox(height: 20,),
                       MyWdgTextField(
@@ -228,39 +215,8 @@ class _BienvenidaState extends State<Bienvenida> {
                 
               ],
             ),
-<<<<<<< Updated upstream
-            const SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final salaService = SalaService();
-
-                await salaService.unirseASala(salaController.text);
-              },
-              child: const Text('Unirse a la sala'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final salaService = SalaService();
-
-                await salaService.crearSala(salaController.text);
-              },
-              child: const Text('Crear sala'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ParticipantesSala(codigoSala: '9000')),
-                );
-              },
-              child: const Text('Ver a la lista de la sala'),
-            ),
-          ],
-        ),
-=======
           ),
         ],
->>>>>>> Stashed changes
       ),
     );
   }
