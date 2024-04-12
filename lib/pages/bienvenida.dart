@@ -1,5 +1,6 @@
 import 'package:facturasya/pages/Login_page.dart';
 import 'package:facturasya/pages/buscar.dart';
+import 'package:facturasya/pages/participantes_sala.dart';
 import 'package:facturasya/services/auth_google.dart';
 import 'package:facturasya/services/sala.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,7 @@ class Bienvenida extends StatefulWidget {
 
 class _BienvenidaState extends State<Bienvenida> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
+
   User? _user;
   final TextEditingController salaController = TextEditingController();
   @override
@@ -35,7 +36,6 @@ class _BienvenidaState extends State<Bienvenida> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bienvenido'),
@@ -71,10 +71,9 @@ class _BienvenidaState extends State<Bienvenida> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const BuscarUsuario(),
@@ -144,11 +143,10 @@ class _BienvenidaState extends State<Bienvenida> {
             ),
             ElevatedButton(
               onPressed: () async {
-                final salaService = SalaService();
-
-                final nombresUsuario =
-                    await salaService.obtenerParticipantesSala('ABCD1234');
-                print(nombresUsuario);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ParticipantesSala(codigoSala: '9000')),
+                );
               },
               child: const Text('Ver a la lista de la sala'),
             ),
