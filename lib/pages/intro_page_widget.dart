@@ -1,4 +1,6 @@
 import 'package:facturasya/pages/Login_page.dart';
+import 'package:facturasya/widgets/mywdgbutton.dart';
+import 'package:facturasya/widgets/mywdgtextbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -68,19 +70,19 @@ class _IntroPageWidgetState extends State<IntroPageWidget> {
                 },
                 children: [
                   _buildPage(
-                    'Planifica tu facturación',
-                    'Al planificar la facturación electrónica, es importante considerar varios factores clave: proveedor, presupuesto, frecuencia y características específicas.',
-                    'assets/images/Facturacion_01.png',
+                    'Organiza tus Equipos',
+                    'Asigna jugadores a equipos de forma aleatoria y equitativa para prepararte para emocionantes partidos con tus amigos.',
+                    'assets/images/welcome_splash_1.jpg',
                   ),
                   _buildPage(
-                    'Comienza la gestión',
-                    'El inicio de la gestión de facturación electrónica marca el comienzo de una nueva era en la organización y eficiencia de tus procesos financieros.',
-                    'assets/images/Facturacion_02.png',
+                    'Consultar Estadísticas',
+                    'Accede a estadísticas detalladas de tus partidos, incluyendo goles, asistencias y más, para analizar el desempeño de tu equipo y mejorar tu estrategia.',
+                    'assets/images/welcome_splash_2.jpg',
                   ),
                   _buildPage(
-                    'Disfruta de tus registros',
-                    'La facturación electrónica simplifica tus registros financieros y te permite disfrutar de una mayor precisión y rapidez en tus transacciones comerciales.',
-                    'assets/images/Facturacion_03.png',
+                    'Jugar Partidos Aleatorios',
+                    'Genera encuentros emocionantes de manera aleatoria y disfruta de una experiencia de juego impredecible y divertida con tus amigos.',
+                    'assets/images/welcome_splash_3.jpg',
                   ),
                 ],
               ),
@@ -91,29 +93,25 @@ class _IntroPageWidgetState extends State<IntroPageWidget> {
               right: 20,
               bottom: MediaQuery.of(context).size.height * 0.05,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: nextPage,
-                    child: Text('Siguiente',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        )),
+                  MyWdgButton(
+                    color: Colors.blue,
+                    text: "Siguiente",
+                    onPressed: () {
+                      nextPage();
+                    },
                   ),
-                  SizedBox(height: 20),
-                  InkWell(
-                    onTap: () {
+                  const SizedBox(height: 20,),
+                  MyWdgTextButton(
+                    text: 'Saltar',
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    child: const Text(
-                      'Saltar',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18.0, color: Colors.black),
-                    ),
                   ),
                 ],
               ),
@@ -152,16 +150,12 @@ class _IntroPageWidgetState extends State<IntroPageWidget> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
-      ),
+      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 250),
+          Image.asset(imagePath),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
@@ -170,7 +164,7 @@ class _IntroPageWidgetState extends State<IntroPageWidget> {
               style: TextStyle(fontSize: 24.0, color: Colors.black),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
@@ -179,6 +173,7 @@ class _IntroPageWidgetState extends State<IntroPageWidget> {
               style: TextStyle(fontSize: 18.0, color: Colors.black),
             ),
           ),
+          const SizedBox(height: 150),
         ],
       ),
     );
