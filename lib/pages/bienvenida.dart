@@ -7,7 +7,6 @@ import 'package:facturasya/widgets/mywdgbutton.dart';
 import 'package:facturasya/widgets/mywdgdialogloading.dart';
 import 'package:facturasya/widgets/mywdgtextbutton.dart';
 import 'package:facturasya/widgets/mywdgtextfield.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Bienvenida extends StatefulWidget {
@@ -18,9 +17,6 @@ class Bienvenida extends StatefulWidget {
 }
 
 class _BienvenidaState extends State<Bienvenida> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
-
   final TextEditingController salaController = TextEditingController();
   @override
   void initState() {
@@ -29,7 +25,6 @@ class _BienvenidaState extends State<Bienvenida> {
   }
 
   void _checkAuthentication() async {
-    _user = _auth.currentUser;
     setState(() {});
   }
 
@@ -88,7 +83,7 @@ class _BienvenidaState extends State<Bienvenida> {
                               snapshot.data!,
                               textScaler: const TextScaler.linear(1.2),
                               style: const TextStyle(
-                                color: const Color.fromARGB(255, 35, 35, 35),
+                                color: Color.fromARGB(255, 35, 35, 35),
                               ),
                             );
                           } else if (snapshot.hasError) {
@@ -105,15 +100,21 @@ class _BienvenidaState extends State<Bienvenida> {
                         textEditingController: salaController,
                         keyboardType: TextInputType.number,
                         onQrPressed: () {
-                          print("aca"); 
+                          //TODO Agregar la funcion de lector de QR
                         },
                       ),
                       const SizedBox(height: 20,),
                       MyWdgButton(
                         text: "Unirse a la Sala",
                         onPressed: ()  async {
+                          myWdgDialogLoading(context: context);
                           final salaService = SalaService();
                           await salaService.unirseASala(salaController.text);
+                          Navigator.pop(context);
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return ParticipantesSala(codigoSala: salaController.text);
+                          },));
                         },
                       ),
                       const SizedBox(height: 20,),
@@ -163,15 +164,6 @@ class _BienvenidaState extends State<Bienvenida> {
                       )
                     ],
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    final salaService = SalaService();
-          
-                    final nombresUsuario = await salaService.obtenerParticipantesSala('ABCD1234');
-                    print(nombresUsuario);
-                  },
-                  child: const Text('Ver a la lista de la sala'),
                 ),
               ],
             ),

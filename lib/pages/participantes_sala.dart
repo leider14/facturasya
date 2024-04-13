@@ -1,6 +1,11 @@
 import 'package:facturasya/services/functions/funtions.dart';
 import 'package:facturasya/services/sala.dart';
+import 'package:facturasya/widgets/mywdgbuttonicon.dart';
+import 'package:facturasya/widgets/mywdgdialogconfirm.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ParticipantesSala extends StatefulWidget {
@@ -17,12 +22,21 @@ class ParticipantesSala extends StatefulWidget {
 }
 
 class _ParticipantesSalaState extends State<ParticipantesSala> {
+  late String usuarioIniciado;
   List<dynamic> participantes = [];
+  int nParticipantes = 0;
   List<Map<String, dynamic>> userDataList = [];
+  late String idHost;
 
   @override
   void initState() {
+    getHostId();
     super.initState();
+  }
+
+  Future<void> getHostId() async {
+    idHost = await SalaService().getHostId(widget.codigoSala);
+    usuarioIniciado =  FirebaseAuth.instance.currentUser!.uid;
   }
 
   Future<Map> getDataUsers() async{
@@ -37,7 +51,14 @@ class _ParticipantesSalaState extends State<ParticipantesSala> {
         dataCompletaUsuario['uid']: dataCompletaUsuario
       });
     }
+    nParticipantes = participantes.length;
+    if(!mapUnido.containsKey(usuarioIniciado)){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("El administrador, te ha sacado")));
+      Navigator.of(context).pop();
+      
+    }
     setState(() {});
+
     return mapUnido;
   }
   
@@ -64,7 +85,11 @@ class _ParticipantesSalaState extends State<ParticipantesSala> {
           Column(
             children: [
               Container(
-                margin: EdgeInsets.all(15),
+                margin: const EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                  top: 15
+                ),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -100,6 +125,9 @@ class _ParticipantesSalaState extends State<ParticipantesSala> {
                             fontWeight: FontWeight.bold,
                             color:  Color.fromARGB(255, 35, 35, 35),
                           ),
+                        ),
+                        Text(
+                          "Participantes: $nParticipantes"
                         )
                       ],
                     )
@@ -129,7 +157,10 @@ class _ParticipantesSalaState extends State<ParticipantesSala> {
     List<Widget> participantes = [];
     data.forEach((key, value) {
       participantes.add(Container(
-        margin: const EdgeInsets.all(15),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 5
+        ),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -155,41 +186,88 @@ class _ParticipantesSalaState extends State<ParticipantesSala> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(1000),
-                child:Image.network(value["photoURL"]) ,
+                child:Image.network(
+                  value["photoURL"],
+                  fit: BoxFit.cover,
+                ) ,
               ),
             ),
             
             const SizedBox(width: 10,),
-            Column(
-              children: [
-                Text(
-                  value["username"],
-                  textScaler: const TextScaler.linear(1.2),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 35, 35, 35),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    value["username"],
+                    overflow: TextOverflow.ellipsis,
+                    textScaler: const TextScaler.linear(1.2),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 35, 35, 35),
+                    ),
                   ),
-                ),
-                Text(
-                  value["username"],
-                  textScaler: const TextScaler.linear(1.2),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 35, 35, 35),
+                  if(idHost == key)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.amber
+                    ),
+                    child: const Text(
+                    "Creador de la sala",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 35, 35, 35),
+                    ),
                   ),
-                ),
-                
-              ],
+                  )
+                ],
+              ),
+            ),
+            if(key == usuarioIniciado)
+            MyWdgButtonIcon(
+              iconData: FontAwesomeIcons.pencil,
+              colorButton: Colors.blue,
+              onPressed: () {
+                //TODO agregar la funcion para cambiar imagen
+              },
+            ),
+            if(idHost == usuarioIniciado)
+            const SizedBox(width: 5,),
+            if(idHost == usuarioIniciado)
+            MyWdgButtonIcon(
+              iconData: FontAwesomeIcons.xmark,
+              colorButton: const Color.fromARGB(255, 211, 72, 72),
+              onPressed: () {
+                myWdgDialogConfirm(
+                  context: context,
+                  title: "Eliminar Usuario",
+                  content: "¿Está seguro de eliminar a ${value['username']} de la sala?",
+                  onConfirmPressed: () {
+                    SalaService().removeFromRoom(widget.codigoSala, key);
+                  },
+                );
+              },
             )
             
           ],
         ),
       ));
     });
+    participantes = participantes;
 
 
-    return Column(
-      children: participantes,
+    return Expanded(
+      child: SingleChildScrollView(
+        padding:const EdgeInsets.only(top: 5),
+        child: Column(
+          children: participantes,
+        ),
+      ),
     );
 
   }
