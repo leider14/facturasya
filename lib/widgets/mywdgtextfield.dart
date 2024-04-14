@@ -6,12 +6,13 @@ class MyWdgTextField extends StatefulWidget {
   final String? title;
   final String? hintText;
   final TextEditingController? textEditingController;
+  final bool isObscure;
   final IconData? iconData;
   final Function(String value)? onChanged;
   final VoidCallback? onClipBoardPressed;
   final VoidCallback? onQrPressed;
   final TextInputType keyboardType;
-  const MyWdgTextField({super.key, this.title, this.hintText, this.textEditingController, this.onChanged, this.iconData,  this.onClipBoardPressed, this.onQrPressed, this.keyboardType = TextInputType.none});
+  const MyWdgTextField({super.key, this.title, this.hintText, this.textEditingController, this.onChanged, this.iconData,  this.onClipBoardPressed, this.onQrPressed, this.keyboardType = TextInputType.name, this.isObscure = false});
 
   @override
   State<MyWdgTextField> createState() => _MyWdgTextFieldState();
@@ -20,6 +21,7 @@ class MyWdgTextField extends StatefulWidget {
 class _MyWdgTextFieldState extends State<MyWdgTextField> {
 
   bool isActive = false;
+  bool obscure = true;
   FocusNode focusNode = FocusNode();
 
   @override
@@ -77,6 +79,7 @@ class _MyWdgTextFieldState extends State<MyWdgTextField> {
                       child: TextField(
                         focusNode: focusNode,
                         controller: widget.textEditingController,
+                        obscureText: widget.isObscure ? obscure : false,
                         keyboardType: widget.keyboardType,
                         decoration: InputDecoration(
                           hintText: widget.hintText,
@@ -94,6 +97,22 @@ class _MyWdgTextFieldState extends State<MyWdgTextField> {
                             widget.onChanged!(value);
                           }
                         },
+                      ),
+                    ),
+                    if(widget.isObscure)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          obscure = !obscure;
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Icon(
+                          obscure ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
+                          color: obscure ? Colors.blue :Colors.grey,
+                          size: 20,
+                        )
                       ),
                     )
                   ],

@@ -5,6 +5,7 @@ import 'package:facturasya/services/auth_google.dart';
 import 'package:facturasya/services/functions/funtions.dart';
 import 'package:facturasya/services/sala.dart';
 import 'package:facturasya/widgets/mywdgbutton.dart';
+import 'package:facturasya/widgets/mywdgdialogconfirm.dart';
 import 'package:facturasya/widgets/mywdgdialogloading.dart';
 import 'package:facturasya/widgets/mywdgtextbutton.dart';
 import 'package:facturasya/widgets/mywdgtextfield.dart';
@@ -71,17 +72,24 @@ class _BienvenidaState extends State<Bienvenida> {
                         future: AuthUser().getWelcomeMessage(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(
+                            return 
+                            Text(
                               snapshot.data!,
                               textScaler: const TextScaler.linear(1.2),
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 35, 35, 35),
+                                
                               ),
                             );
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
-                            return const CircularProgressIndicator();
+                            return Text("Bienvenido,",
+                            textScaler: const TextScaler.linear(1.2),
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 35, 35, 35),
+                                
+                              ),);
                           }
                         },
                       ),
@@ -122,12 +130,13 @@ class _BienvenidaState extends State<Bienvenida> {
                         color: Colors.green,
                         onPressed: () async {
                           hideKeyboard(context: context);
+                          String uidsala = generateUid();
                           myWdgDialogLoading(context: context);
                           final salaService = SalaService();
-                          await salaService.crearSala(salaController.text).whenComplete(() {
+                          await salaService.crearSala(uidsala).whenComplete(() {
                             Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return ParticipantesSala(codigoSala: salaController.text);
+                              return ParticipantesSala(codigoSala: uidsala);
                             },));
                           });
                           
@@ -140,28 +149,25 @@ class _BienvenidaState extends State<Bienvenida> {
                         text: "Cerrar Sesión",
                         onPressed: () async {
                           // Muestra el diálogo de espera
-                          showDialog(
+                          myWdgDialogConfirm(
                             context: context,
-                            builder: (BuildContext dialogContext) {
-                              return const AlertDialog(
-                                title: Text('Cerrando sesión'),
-                                content: Text('Por favor, espera...'),
-                                actions: [],
-                              );
+                            title: "Cerrar Sesión",
+                            content: "¿Seguro que deseas cerrar sesión?",
+                            onConfirmPressed: () async {
+                              await signOutUser().whenComplete(() {
+                                // Cierra el diálogo de espera
+                                Navigator.pop(context);
+                  
+                                // Navega a la página de inicio de sesión
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => LoginPage()),
+                                );
+                              });
+                
                             },
                           );
-            
-                          await signOutUser().whenComplete(() {
-                            // Cierra el diálogo de espera
-                            Navigator.pop(context);
-              
-                            // Navega a la página de inicio de sesión
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => LoginPage()),
-                            );
-                          });
-            
+                          
                           
                         },
                       )
