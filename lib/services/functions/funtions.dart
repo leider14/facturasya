@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:facturasya/services/auth_google.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -43,6 +45,13 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     } else {
       // Cierre de sesión con correo electrónico y contraseña
       await FirebaseAuth.instance.signOut();
+    }
+  }
+
+  void hideKeyboard({required BuildContext context}){
+    final FocusScopeNode focus = FocusScope.of(context);
+    if (!focus.hasPrimaryFocus && focus.hasFocus) {
+      FocusManager.instance.primaryFocus!.unfocus();
     }
   }
 

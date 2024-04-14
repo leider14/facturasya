@@ -1,3 +1,4 @@
+
 import 'package:facturasya/pages/Login_page.dart';
 import 'package:facturasya/pages/participantes_sala.dart';
 import 'package:facturasya/services/auth_google.dart';
@@ -21,16 +22,12 @@ class _BienvenidaState extends State<Bienvenida> {
   @override
   void initState() {
     _checkAuthentication();
+    salaController.text = "";
     super.initState();
   }
 
   void _checkAuthentication() async {
     setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -100,21 +97,22 @@ class _BienvenidaState extends State<Bienvenida> {
                         textEditingController: salaController,
                         keyboardType: TextInputType.number,
                         onQrPressed: () {
-                          //TODO Agregar la funcion de lector de QR
+
                         },
                       ),
                       const SizedBox(height: 20,),
                       MyWdgButton(
                         text: "Unirse a la Sala",
                         onPressed: ()  async {
+                          hideKeyboard(context: context);
                           myWdgDialogLoading(context: context);
                           final salaService = SalaService();
-                          await salaService.unirseASala(salaController.text);
-                          Navigator.pop(context);
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return ParticipantesSala(codigoSala: salaController.text);
-                          },));
+                          await salaService.unirseASala(salaController.text).whenComplete(() {
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return ParticipantesSala(codigoSala: salaController.text);
+                            },));
+                          });
                         },
                       ),
                       const SizedBox(height: 20,),
@@ -122,14 +120,16 @@ class _BienvenidaState extends State<Bienvenida> {
                         text: "Crear Sala",
                         color: Colors.green,
                         onPressed: () async {
+                          hideKeyboard(context: context);
                           myWdgDialogLoading(context: context);
                           final salaService = SalaService();
-                          await salaService.crearSala(salaController.text);
-                          Navigator.pop(context);
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return ParticipantesSala(codigoSala: salaController.text);
-                          },));
+                          await salaService.crearSala(salaController.text).whenComplete(() {
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return ParticipantesSala(codigoSala: salaController.text);
+                            },));
+                          });
+                          
                         },
                       ),
                       const SizedBox(height: 20,),
@@ -148,18 +148,18 @@ class _BienvenidaState extends State<Bienvenida> {
                             },
                           );
             
-                          await signOutUser();
+                          await signOutUser().whenComplete(() {
+                            // Cierra el diálogo de espera
+                            Navigator.pop(context);
+              
+                            // Navega a la página de inicio de sesión
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
+                          });
             
-                          // Cierra el diálogo de espera
-                          // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
-            
-                          // Navega a la página de inicio de sesión
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
-                          );
+                          
                         },
                       )
                     ],

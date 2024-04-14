@@ -1,5 +1,4 @@
 import 'package:facturasya/widgets/mywdgbutton.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void myWdgDialogConfirm({
@@ -9,10 +8,12 @@ void myWdgDialogConfirm({
   required VoidCallback onConfirmPressed,
 }) {
   showDialog(
+    barrierColor: const Color.fromARGB(110, 0, 0, 0),
     context: context,
     barrierDismissible: false, // Impide que se pueda cerrar tocando fuera del diálogo
     builder: (BuildContext context) {
       return AlertDialog(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         title: Text(
           title,
@@ -37,7 +38,7 @@ void myWdgDialogConfirm({
             color: Colors.blue,
             onPressed: () {
               onConfirmPressed();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
             },
           ),
           const SizedBox(height: 15,),

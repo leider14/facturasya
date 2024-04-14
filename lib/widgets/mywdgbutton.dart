@@ -16,6 +16,8 @@ class _MyWdgButtonState extends State<MyWdgButton> {
   Widget build(BuildContext context) {
 
     return Bounce(
+      tapDelay: Duration.zero,
+      
       child: GestureDetector(
         onTap: () {
           if(widget.onPressed != null){

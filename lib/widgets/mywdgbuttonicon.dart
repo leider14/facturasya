@@ -6,7 +6,8 @@ class MyWdgButtonIcon extends StatefulWidget {
   final Color? colorButton;
   final IconData iconData;
   final VoidCallback? onPressed;
-  const MyWdgButtonIcon({super.key, required this.iconData, this.onPressed, this.colorIcon, this.colorButton});
+  final double size;
+  const MyWdgButtonIcon({super.key, this.size = 35 ,required this.iconData, this.onPressed, this.colorIcon, this.colorButton});
 
   @override
   State<MyWdgButtonIcon> createState() => _MyWdgButtonIconState();
@@ -23,8 +24,8 @@ class _MyWdgButtonIconState extends State<MyWdgButtonIcon> {
           }
         },
         child: Container(
-          width: 35,
-          height: 35,
+          width: widget.size,
+          height: widget.size,
           decoration: BoxDecoration(
             color: widget.colorButton ?? const Color.fromARGB(255, 78, 78, 78),
             shape: BoxShape.circle,
