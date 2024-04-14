@@ -54,21 +54,16 @@ class _BienvenidaState extends State<Bienvenida> {
                   'Sale Fuckbito',
                   textScaler: TextScaler.linear(2.0),
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                  ),
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const SizedBox(height: 40),
                 //Caja de inicio de juego
                 Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 50
-                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white
-                  ),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white),
                   child: Column(
                     children: [
                       //Mensaje a Usuario
@@ -90,7 +85,9 @@ class _BienvenidaState extends State<Bienvenida> {
                           }
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgTextField(
                         title: "Pin de Juego",
                         hintText: "00000",
@@ -100,7 +97,9 @@ class _BienvenidaState extends State<Bienvenida> {
 
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgButton(
                         text: "Unirse a la Sala",
                         onPressed: ()  async {
@@ -115,7 +114,9 @@ class _BienvenidaState extends State<Bienvenida> {
                           });
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgButton(
                         text: "Crear Sala",
                         color: Colors.green,
@@ -132,7 +133,9 @@ class _BienvenidaState extends State<Bienvenida> {
                           
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgTextButton(
                         text: "Cerrar Sesión",
                         onPressed: () async {

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:facturasya/services/auth_google.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +20,28 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     return ""; 
   }
 } */
+String generateUid() {
+  Random random = Random();
+  String uid = '';
+  for (int i = 0; i < 6; i++) {
+    uid += random.nextInt(10).toString();
+  }
+  return uid;
+}
+Future<String> generarCodigoUinco() async {
+    String codigo;
+    do {
+      codigo = generateUid();
+      // Verifica si ya existe una sala con el código generado
+      final salaSnapshot =
+          await _firestore.collection('salas').doc(codigo).get();
+      if (!salaSnapshot.exists) {
+        // Si no existe, se ha encontrado un código único
+        break;
+      }
+    } while (true);
+    return codigo;
+  }
  Future<Map<String, dynamic>> getUserFromFirebase(String uid) async {
   try {
     final querySnapshot = await _firestore.collection('usuarios').doc(uid).get();

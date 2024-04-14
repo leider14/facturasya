@@ -50,30 +50,31 @@ class _ParticipantesSalaState extends State<ParticipantesSala>  with TickerProvi
     );
   }
 
-  Future<Map> getDataUsers() async{
+  Future<Map> getDataUsers() async {
     Map mapUnido = {};
-    List participantes = await SalaService().obtenerParticipantesSala(widget.codigoSala);
+    List participantes =
+        await SalaService().obtenerParticipantesSala(widget.codigoSala);
     for (var participante in participantes) {
       Map dataCompletaUsuario = {};
       Map dataUsuario = await getUserFromFirebase(participante['uid']);
       dataCompletaUsuario.addAll(dataUsuario);
       dataCompletaUsuario.addAll(participante);
-      mapUnido.addAll({
-        dataCompletaUsuario['uid']: dataCompletaUsuario
-      });
+      mapUnido.addAll({dataCompletaUsuario['uid']: dataCompletaUsuario});
     }
     nParticipantes = participantes.length;
-    if(!mapUnido.containsKey(usuarioIniciado)){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("El administrador, te ha sacado")));
+    if (!mapUnido.containsKey(usuarioIniciado)) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("El administrador, te ha sacado")));
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
-      
     }
     showButtonNext = (idHost.isNotEmpty && nParticipantes > 2 && idHost == usuarioIniciado ); 
     setState(() {});
 
     return mapUnido;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,24 +103,18 @@ class _ParticipantesSalaState extends State<ParticipantesSala>  with TickerProvi
           Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  top: 15
-                ),
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white
-                ),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    QrImageView(
-                      size: 120,
-                      data: widget.codigoSala
+                    QrImageView(size: 120, data: widget.codigoSala),
+                    const SizedBox(
+                      width: 20,
                     ),
-                    const SizedBox(width: 20,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -130,17 +125,16 @@ class _ParticipantesSalaState extends State<ParticipantesSala>  with TickerProvi
                           style: TextStyle(
                             height: 0,
                             fontWeight: FontWeight.bold,
-                            color:  Color.fromARGB(255, 35, 35, 35),
+                            color: Color.fromARGB(255, 35, 35, 35),
                           ),
                         ),
                         Text(
                           widget.codigoSala.toString(),
                           textScaler: const TextScaler.linear(4),
-                          
-                          style:const  TextStyle(
+                          style: const TextStyle(
                             height: 0,
                             fontWeight: FontWeight.bold,
-                            color:  Color.fromARGB(255, 35, 35, 35),
+                            color: Color.fromARGB(255, 35, 35, 35),
                           ),
                         ),
                         Text(
@@ -179,7 +173,6 @@ class _ParticipantesSalaState extends State<ParticipantesSala>  with TickerProvi
                   }
                 },
               ),
-              
             ],
           ),
           AnimatedPositioned(
@@ -215,7 +208,7 @@ class _ParticipantesSalaState extends State<ParticipantesSala>  with TickerProvi
     );
   }
 
-  Widget myWdgListParticipantes(Map data){
+  Widget myWdgListParticipantes(Map data) {
     List<Widget> participantes = [];
     data.forEach((key, value) {
       participantes.add(
@@ -346,7 +339,5 @@ class _ParticipantesSalaState extends State<ParticipantesSala>  with TickerProvi
         ),
       ),
     );
-
   }
-
 }
