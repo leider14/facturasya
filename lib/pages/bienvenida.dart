@@ -57,21 +57,16 @@ class _BienvenidaState extends State<Bienvenida> {
                   'Sale Fuckbito',
                   textScaler: TextScaler.linear(2.0),
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                  ),
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const SizedBox(height: 40),
                 //Caja de inicio de juego
                 Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 50
-                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white
-                  ),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white),
                   child: Column(
                     children: [
                       //Mensaje a Usuario
@@ -93,7 +88,9 @@ class _BienvenidaState extends State<Bienvenida> {
                           }
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgTextField(
                         title: "Pin de Juego",
                         hintText: "00000",
@@ -103,36 +100,49 @@ class _BienvenidaState extends State<Bienvenida> {
                           //TODO Agregar la funcion de lector de QR
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgButton(
                         text: "Unirse a la Sala",
-                        onPressed: ()  async {
+                        onPressed: () async {
                           myWdgDialogLoading(context: context);
                           final salaService = SalaService();
                           await salaService.unirseASala(salaController.text);
                           Navigator.pop(context);
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return ParticipantesSala(codigoSala: salaController.text);
-                          },));
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ParticipantesSala(
+                                  codigoSala: salaController.text);
+                            },
+                          ));
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgButton(
                         text: "Crear Sala",
                         color: Colors.green,
                         onPressed: () async {
+                          String uidsala = generateUid();
                           myWdgDialogLoading(context: context);
                           final salaService = SalaService();
-                          await salaService.crearSala(salaController.text);
+                          await salaService.crearSala(uidsala);
                           Navigator.pop(context);
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return ParticipantesSala(codigoSala: salaController.text);
-                          },));
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ParticipantesSala(
+                                  codigoSala: uidsala);
+                            },
+                          ));
                         },
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MyWdgTextButton(
                         text: "Cerrar Sesión",
                         onPressed: () async {
@@ -147,18 +157,19 @@ class _BienvenidaState extends State<Bienvenida> {
                               );
                             },
                           );
-            
+
                           await signOutUser();
-            
+
                           // Cierra el diálogo de espera
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
-            
+
                           // Navega a la página de inicio de sesión
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           );
                         },
                       )
