@@ -27,7 +27,7 @@ Para instalar Fuckbito, sigue estos pasos:
 3. Ejecuta la aplicación: `flutter run`
 
 ## Screenshots
-|  ![Imagen 3](ReadmeFiles/1.png)| ![Imagen 2](ReadmeFiles/2.png) | ![Imagen 1](ReadmeFiles/3.png) || ![Imagen 1](ReadmeFiles/4.png) || ![Imagen 1](ReadmeFiles/5.png) |
-| --- | --- | --- |
+|  ![Imagen 3](ReadmeFiles/1.png)| ![Imagen 2](ReadmeFiles/2.png) | ![Imagen 1](ReadmeFiles/3.png) | ![Imagen 1](ReadmeFiles/4.png) | ![Imagen 1](ReadmeFiles/5.png) |
+| --- | --- | --- | --- | --- |
 
 ## Estado: Desarrollo
